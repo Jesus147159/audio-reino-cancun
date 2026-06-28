@@ -4,9 +4,6 @@
 {% block content %}
 <section id="inicio" class="hero">
   <div class="hero-media" {% if settings_obj.hero_image %}style="background-image: url('{{ settings_obj.hero_image.url }}')"{% endif %}>
-    <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1600&q=70">
-      <source src="{% static 'rental/video/hero-video.mp4' %}" type="video/mp4">
-    </video>
   </div>
   <div class="hero-glow"></div>
 
