@@ -1,0 +1,136 @@
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+    initial = True
+
+    dependencies = []
+
+    operations = [
+        migrations.CreateModel(
+            name="Equipment",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("name", models.CharField(max_length=140, verbose_name="equipo")),
+                ("category", models.CharField(default="Audio", max_length=80, verbose_name="categoria")),
+                ("description", models.TextField(blank=True, verbose_name="descripcion")),
+                ("image", models.ImageField(blank=True, null=True, upload_to="equipment/", verbose_name="imagen")),
+                ("is_featured", models.BooleanField(default=False, verbose_name="destacado")),
+                ("is_active", models.BooleanField(default=True, verbose_name="activo")),
+            ],
+            options={"verbose_name": "equipo", "verbose_name_plural": "equipos", "ordering": ["category", "name"]},
+        ),
+        migrations.CreateModel(
+            name="FAQ",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("question", models.CharField(max_length=180, verbose_name="pregunta")),
+                ("answer", models.TextField(verbose_name="respuesta")),
+                ("order", models.PositiveIntegerField(default=0, verbose_name="orden")),
+                ("is_active", models.BooleanField(default=True, verbose_name="activo")),
+            ],
+            options={"verbose_name": "pregunta frecuente", "verbose_name_plural": "preguntas frecuentes", "ordering": ["order", "question"]},
+        ),
+        migrations.CreateModel(
+            name="GalleryImage",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("title", models.CharField(max_length=120, verbose_name="titulo")),
+                ("image", models.ImageField(upload_to="gallery/", verbose_name="imagen")),
+                ("alt_text", models.CharField(blank=True, max_length=160, verbose_name="texto alternativo")),
+                ("order", models.PositiveIntegerField(default=0, verbose_name="orden")),
+                ("is_active", models.BooleanField(default=True, verbose_name="activo")),
+            ],
+            options={"verbose_name": "imagen de galeria", "verbose_name_plural": "galeria", "ordering": ["order", "-created_at"]},
+        ),
+        migrations.CreateModel(
+            name="Lead",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("name", models.CharField(max_length=120, verbose_name="nombre")),
+                ("phone", models.CharField(max_length=30, verbose_name="telefono")),
+                ("email", models.EmailField(blank=True, max_length=254, verbose_name="correo")),
+                ("event_type", models.CharField(choices=[("culto", "Culto o reunion"), ("congreso", "Congreso"), ("concierto", "Concierto cristiano"), ("boda", "Boda cristiana"), ("otro", "Otro")], default="culto", max_length=30, verbose_name="tipo de evento")),
+                ("event_date", models.DateField(blank=True, null=True, verbose_name="fecha del evento")),
+                ("location", models.CharField(blank=True, max_length=160, verbose_name="ubicacion")),
+                ("message", models.TextField(verbose_name="mensaje")),
+                ("was_contacted", models.BooleanField(default=False, verbose_name="ya fue contactado")),
+            ],
+            options={"verbose_name": "solicitud", "verbose_name_plural": "solicitudes", "ordering": ["-created_at"]},
+        ),
+        migrations.CreateModel(
+            name="Package",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("name", models.CharField(max_length=120, verbose_name="paquete")),
+                ("subtitle", models.CharField(blank=True, max_length=160, verbose_name="subtitulo")),
+                ("description", models.TextField(verbose_name="descripcion")),
+                ("ideal_for", models.CharField(blank=True, max_length=180, verbose_name="ideal para")),
+                ("price_from", models.DecimalField(blank=True, decimal_places=2, max_digits=10, null=True, verbose_name="precio desde")),
+                ("includes", models.TextField(help_text="Escribe un elemento por linea", verbose_name="incluye")),
+                ("order", models.PositiveIntegerField(default=0, verbose_name="orden")),
+                ("is_active", models.BooleanField(default=True, verbose_name="activo")),
+            ],
+            options={"verbose_name": "paquete", "verbose_name_plural": "paquetes", "ordering": ["order", "name"]},
+        ),
+        migrations.CreateModel(
+            name="Service",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("title", models.CharField(max_length=120, verbose_name="titulo")),
+                ("description", models.TextField(verbose_name="descripcion")),
+                ("icon", models.CharField(default="speaker", help_text="Opciones sugeridas: speaker, users, truck, mic, shield", max_length=40, verbose_name="icono")),
+                ("order", models.PositiveIntegerField(default=0, verbose_name="orden")),
+                ("is_active", models.BooleanField(default=True, verbose_name="activo")),
+            ],
+            options={"verbose_name": "servicio", "verbose_name_plural": "servicios", "ordering": ["order", "title"]},
+        ),
+        migrations.CreateModel(
+            name="SiteSettings",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("business_name", models.CharField(default="Audio Reino Cancun", max_length=120, verbose_name="nombre del negocio")),
+                ("tagline", models.CharField(default="Renta de audio profesional para congregaciones y eventos cristianos", max_length=180, verbose_name="frase principal")),
+                ("city", models.CharField(default="Cancun, Quintana Roo", max_length=80, verbose_name="ciudad base")),
+                ("phone", models.CharField(blank=True, max_length=30, verbose_name="telefono")),
+                ("whatsapp_number", models.CharField(blank=True, help_text="Ejemplo: 529981234567", max_length=30, verbose_name="WhatsApp con lada internacional")),
+                ("email", models.EmailField(blank=True, max_length=254, verbose_name="correo")),
+                ("facebook_url", models.URLField(blank=True, verbose_name="Facebook")),
+                ("instagram_url", models.URLField(blank=True, verbose_name="Instagram")),
+                ("logo", models.ImageField(blank=True, null=True, upload_to="branding/", verbose_name="logo")),
+                ("hero_image", models.ImageField(blank=True, null=True, upload_to="hero/", verbose_name="imagen principal")),
+                ("primary_cta", models.CharField(default="Cotizar por WhatsApp", max_length=60, verbose_name="boton principal")),
+                ("secondary_cta", models.CharField(default="Ver paquetes", max_length=60, verbose_name="boton secundario")),
+                ("meta_description", models.CharField(blank=True, max_length=260, verbose_name="descripcion SEO")),
+                ("is_active", models.BooleanField(default=True, verbose_name="configuracion activa")),
+            ],
+            options={"verbose_name": "configuracion del sitio", "verbose_name_plural": "configuracion del sitio"},
+        ),
+        migrations.CreateModel(
+            name="Testimonial",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("name", models.CharField(max_length=100, verbose_name="nombre")),
+                ("church_or_event", models.CharField(blank=True, max_length=140, verbose_name="iglesia o evento")),
+                ("quote", models.TextField(verbose_name="testimonio")),
+                ("is_active", models.BooleanField(default=True, verbose_name="activo")),
+            ],
+            options={"verbose_name": "testimonio", "verbose_name_plural": "testimonios", "ordering": ["-created_at"]},
+        ),
+    ]

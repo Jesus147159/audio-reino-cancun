@@ -1,0 +1,59 @@
+{% load static %}
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if site_settings %}{{ site_settings.business_name }}{% else %}Audio Reino Cancun{% endif %}</title>
+  <meta name="description" content="{% if site_settings and site_settings.meta_description %}{{ site_settings.meta_description }}{% else %}Renta de audio profesional para congregaciones cristianas y eventos en Cancun, con personal tecnico e instalacion incluida.{% endif %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'rental/css/styles.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#inicio" aria-label="Inicio">
+      {% if site_settings.logo %}
+        <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.business_name }}">
+      {% else %}
+        <span class="brand-mark">AR</span>
+      {% endif %}
+      <span class="brand-text">{% if site_settings %}{{ site_settings.business_name }}{% else %}Audio Reino Cancun{% endif %}</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" class="site-nav">
+      <a href="#servicios">Servicios</a>
+      <a href="#paquetes">Paquetes</a>
+      <a href="#equipo">Equipo</a>
+      <a class="nav-cta" href="#contacto">Cotizar</a>
+    </nav>
+  </header>
+
+  {% if messages %}
+    <div class="messages" aria-live="polite">
+      {% for message in messages %}
+        <p class="message {{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <strong>{% if site_settings %}{{ site_settings.business_name }}{% else %}Audio Reino Cancun{% endif %}</strong>
+      <p>Audio profesional, instalacion y personal tecnico para eventos cristianos en Cancun y alrededores.</p>
+    </div>
+    <div class="footer-links">
+      {% if site_settings.email %}<a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a>{% endif %}
+      {% if site_settings.phone %}<a href="tel:{{ site_settings.phone }}">{{ site_settings.phone }}</a>{% endif %}
+      <a href="/admin/">Panel admin</a>
+    </div>
+  </footer>
+
+  <script src="{% static 'rental/js/main.js' %}"></script>
+</body>
+</html>

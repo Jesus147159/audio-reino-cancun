@@ -1,0 +1,229 @@
+{% extends "rental/base.html" %}
+{% load static %}
+
+{% block content %}
+<section id="inicio" class="hero">
+  <div class="hero-media" {% if settings_obj.hero_image %}style="background-image: url('{{ settings_obj.hero_image.url }}')"{% endif %}>
+    <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1600&q=70">
+      <source src="{% static 'rental/video/hero-video.mp4' %}" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-shell hero-shell-video">
+    <div class="hero-content reveal">
+      <p class="eyebrow">Audio para iglesias y eventos cristianos</p>
+      <h1>Tu evento se escucha claro desde el primer minuto</h1>
+      <p class="hero-copy">Equipo, instalacion y tecnico en sitio para cultos, congresos, conciertos y celebraciones en Cancun.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#contacto">{{ settings_obj.primary_cta|default:"Cotizar por WhatsApp" }}</a>
+        <a class="button ghost" href="#paquetes">{{ settings_obj.secondary_cta|default:"Ver paquetes" }}</a>
+      </div>
+      <div class="trust-row">
+        <span>Instalacion</span>
+        <span>Operacion tecnica</span>
+        <span>Riviera Maya</span>
+      </div>
+    </div>
+
+    <aside class="hero-panel reveal" aria-label="Resumen del servicio">
+      <div class="panel-top">
+        <div class="sound-bars" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <span class="availability">Disponible en Cancun</span>
+      </div>
+      <p class="card-label">Servicio profesional</p>
+      <h2>Instalamos, probamos y operamos el audio.</h2>
+      <div class="panel-list">
+        <span>Revision del lugar y asistencia</span>
+        <span>Equipo segun tipo de evento</span>
+        <span>Tecnico durante el programa</span>
+      </div>
+      <a class="panel-link" href="#contacto">Pedir cotizacion</a>
+    </aside>
+  </div>
+</section>
+
+<section class="promo-strip">
+  <div>
+    <strong>Audio profesional</strong>
+    <span>Voz clara, musica limpia y cobertura adecuada.</span>
+  </div>
+  <div>
+    <strong>Sin complicaciones</strong>
+    <span>Llegamos, instalamos, probamos y desmontamos.</span>
+  </div>
+  <div>
+    <strong>Atencion local</strong>
+    <span>Cancun, Riviera Maya y eventos foraneos.</span>
+  </div>
+</section>
+
+<section id="servicios" class="section">
+  <div class="section-heading reveal">
+    <p class="eyebrow">Lo que resolvemos</p>
+    <h2>Sonido confiable para que tu evento fluya</h2>
+  </div>
+  <div class="service-grid">
+    {% for service in services %}
+      <article class="service-card reveal">
+        <span class="icon-pill">{{ service.icon|slice:":2"|upper }}</span>
+        <h3>{{ service.title }}</h3>
+        <p>{{ service.description|truncatechars:120 }}</p>
+      </article>
+    {% empty %}
+      <article class="service-card reveal"><h3>Audio profesional</h3><p>Bocinas, consola, microfonos y cableado configurados por personal tecnico.</p></article>
+      <article class="service-card reveal"><h3>Instalacion incluida</h3><p>Montaje y pruebas antes del evento para que todo empiece sin estres.</p></article>
+      <article class="service-card reveal"><h3>Operacion tecnica</h3><p>Acompanamiento durante el evento para cuidar volumen y claridad.</p></article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="event-showcase" aria-label="Ejemplos visuales de servicios de audio">
+  <figure class="showcase-item reveal">
+    <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=900&q=80" alt="Escenario con luces para evento">
+    <figcaption>Congresos</figcaption>
+  </figure>
+  <figure class="showcase-item tall reveal">
+    <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=900&q=80" alt="Microfono profesional">
+    <figcaption>Cultos</figcaption>
+  </figure>
+  <figure class="showcase-item reveal">
+    <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=900&q=80" alt="Consola de audio profesional">
+    <figcaption>Mezcla</figcaption>
+  </figure>
+</section>
+
+<section id="paquetes" class="section section-muted">
+  <div class="section-heading compact reveal">
+    <p class="eyebrow">Paquetes</p>
+    <h2>Elige una base y la ajustamos a tu evento</h2>
+  </div>
+  <div class="package-grid">
+    {% for package in packages %}
+      <article class="package-card reveal">
+        <div>
+          <p class="package-kicker">{{ package.subtitle }}</p>
+          <h3>{{ package.name }}</h3>
+          <p>{{ package.description|truncatechars:120 }}</p>
+        </div>
+        {% if package.price_from %}
+          <p class="price">Desde ${{ package.price_from|floatformat:0 }} MXN</p>
+        {% endif %}
+        {% if package.ideal_for %}<p class="ideal">{{ package.ideal_for }}</p>{% endif %}
+        <ul>
+          {% for item in package.include_list|slice:":4" %}
+            <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        <a class="button small" href="#contacto">Cotizar</a>
+      </article>
+    {% empty %}
+      <article class="package-card reveal"><h3>Basico</h3><p>Para reuniones pequenas.</p><ul><li>2 bocinas activas</li><li>2 microfonos</li><li>Instalacion</li></ul></article>
+      <article class="package-card reveal"><h3>Congregacion</h3><p>Para cultos y reuniones medianas.</p><ul><li>Consola digital</li><li>Microfonos inalambricos</li><li>Tecnico en sitio</li></ul></article>
+      <article class="package-card reveal"><h3>Evento especial</h3><p>Para congresos y conciertos cristianos.</p><ul><li>Sistema principal</li><li>Monitoreo</li><li>Coordinacion tecnica</li></ul></article>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="equipo" class="section split">
+  <div class="section-heading left reveal">
+    <p class="eyebrow">Equipo</p>
+    <h2>Montaje limpio, audio estable y presencia profesional</h2>
+    <p>Usamos el equipo adecuado para el lugar, el numero de asistentes y el tipo de programa.</p>
+  </div>
+  <div class="equipment-grid">
+    {% for item in equipment %}
+      <article class="equipment-card reveal">
+        {% if item.image %}<img src="{{ item.image.url }}" alt="{{ item.name }}">{% endif %}
+        <div>
+          <span>{{ item.category }}</span>
+          <h3>{{ item.name }}</h3>
+          <p>{{ item.description|truncatechars:90 }}</p>
+        </div>
+      </article>
+    {% empty %}
+      <article class="equipment-card placeholder reveal"><div><span>Audio</span><h3>Bocinas activas</h3><p>Potencia clara para voz, musica y predicacion.</p></div></article>
+      <article class="equipment-card placeholder reveal"><div><span>Microfonia</span><h3>Microfonos inalambricos</h3><p>Libertad para predicadores, salmistas y presentadores.</p></div></article>
+      <article class="equipment-card placeholder reveal"><div><span>Control</span><h3>Consola digital</h3><p>Mezcla estable y adaptable al espacio.</p></div></article>
+    {% endfor %}
+  </div>
+</section>
+
+{% if gallery %}
+<section class="section gallery-section">
+  <div class="gallery-grid">
+    {% for image in gallery %}
+      <img class="reveal" src="{{ image.image.url }}" alt="{{ image.alt_text|default:image.title }}">
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="section section-muted proof">
+  <div class="section-heading compact reveal">
+    <p class="eyebrow">Proceso</p>
+    <h2>Tu evento queda cubierto en tres pasos</h2>
+  </div>
+  <div class="proof-grid">
+    <div class="reveal"><strong>01</strong><p>Nos cuentas fecha, lugar y asistentes.</p></div>
+    <div class="reveal"><strong>02</strong><p>Te proponemos equipo y precio.</p></div>
+    <div class="reveal"><strong>03</strong><p>Instalamos y operamos el audio.</p></div>
+  </div>
+</section>
+
+{% if testimonials %}
+<section class="section">
+  <div class="testimonial-grid">
+    {% for testimonial in testimonials %}
+      <blockquote class="reveal">
+        <p>"{{ testimonial.quote }}"</p>
+        <cite>{{ testimonial.name }}{% if testimonial.church_or_event %}, {{ testimonial.church_or_event }}{% endif %}</cite>
+      </blockquote>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section id="contacto" class="section contact-section">
+  <div class="contact-copy reveal">
+    <p class="eyebrow">Cotizacion</p>
+    <h2>Cuentanos fecha, lugar y asistencia</h2>
+    <p>Guardaremos tu solicitud y, si tienes WhatsApp configurado, se abrira un mensaje listo para enviar.</p>
+    <div class="contact-points">
+      <span>Respuesta rapida</span>
+      <span>Precios en MXN</span>
+      <span>Servicio local</span>
+    </div>
+  </div>
+  <form class="lead-form reveal" method="post">
+    {% csrf_token %}
+    <label>Nombre completo {{ form.name }}</label>
+    <label>Telefono / WhatsApp {{ form.phone }}</label>
+    <label>Correo {{ form.email }}</label>
+    <label>Tipo de evento {{ form.event_type }}</label>
+    <label>Fecha {{ form.event_date }}</label>
+    <label>Ubicacion {{ form.location }}</label>
+    <label class="full">Mensaje {{ form.message }}</label>
+    <button class="button primary full" type="submit">Enviar solicitud</button>
+  </form>
+</section>
+
+{% if faqs %}
+<section class="section faq-section">
+  <div class="section-heading compact reveal">
+    <p class="eyebrow">Dudas comunes</p>
+    <h2>Preguntas frecuentes</h2>
+  </div>
+  <div class="faq-list">
+    {% for faq in faqs %}
+      <details class="reveal">
+        <summary>{{ faq.question }}</summary>
+        <p>{{ faq.answer }}</p>
+      </details>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}
