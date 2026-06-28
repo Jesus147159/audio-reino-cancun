@@ -73,7 +73,7 @@ Tampoco subas:
 
    ```text
    Build Command:
-   pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
+   bash build.sh
 
    Start Command:
    gunicorn config.wsgi:application
@@ -91,6 +91,7 @@ Tampoco subas:
    DB_PASSWORD=...
    DB_HOST=...
    DB_PORT=5432
+   DATABASE_URL=...
    WHATSAPP_NUMBER=529981234567
    CONTACT_EMAIL=ventas@tudominio.com
    PUBLIC_API_KEY=una-clave-segura

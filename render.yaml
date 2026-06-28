@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: audio-reino-cancun
+    env: python
+    plan: free
+    buildCommand: "bash build.sh"
+    startCommand: "gunicorn config.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.4
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        sync: false
+      - key: CSRF_TRUSTED_ORIGINS
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: audio-reino-cancun-db
+          property: connectionString
+
+databases:
+  - name: audio-reino-cancun-db
+    plan: free
